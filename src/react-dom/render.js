@@ -40,7 +40,7 @@ const _render = (vnode, container)=> {
     }
 
     vnode.children.forEach(child=>{
-        render(child, dom);
+        _render(child, dom);
     })
 
     return container.appendChild(dom);
