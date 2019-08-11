@@ -32,18 +32,40 @@ class Counter extends React.Component{
   }
 }
 
-class App extends React.Component{
-    render(){
-        return (
-          <div>
-            <h1 className="title">hello world.</h1>
-            <Welcome name="Sara"/>
-            <Welcome name="Cahal"/>
-            <Welcome name="Edite"/>
-            <Counter />
+// class App extends React.Component{
+//   render(){
+//       return (
+//         <div>
+//           <h1 className="title">hello world.</h1>
+//           <Welcome name="Sara"/>
+//           <Welcome name="Cahal"/>
+//           <Welcome name="Edite"/>
+//           <Counter />
+//         </div>
+//       );
+//   }
+// }
+
+class App extends React.Component {
+  constructor() {
+      super();
+      this.state = {
+          num: 0
+      }
+  }
+  componentDidMount() {
+      for ( let i = 0; i < 100; i++ ) {
+          this.setState( { num: this.state.num + 1 } );
+          console.log( this.state.num ); 
+      }
+  }
+  render() {
+      return (
+          <div className="App">
+              <h1>{ this.state.num }</h1>
           </div>
-        );
-    }
+      );
+  }
 }
 
 // let App = (<h1 className="title">hello world.</h1>)

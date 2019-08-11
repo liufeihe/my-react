@@ -7,8 +7,10 @@ class Component {
         this.props = props;
     }
     setState(stateChange){
-        Object.assign(this.state, stateChange);
-        renderComponent(this);
+        // Object.assign(this.state, stateChange);
+        // renderComponent(this);
+
+        enqueueSetState( stateChange, this );
     }
 }
 
