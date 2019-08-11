@@ -1,5 +1,5 @@
 import {setAttribute} from './dom.js';
-import {createComponent, setComponentProps} from './diff.js';
+import {createComponent, setComponentProps, diff} from './diff.js';
 
 const _render = (vnode)=> {
     if (vnode===undefined || vnode===null || typeof vnode==='boolean'){
@@ -33,11 +33,12 @@ const _render = (vnode)=> {
     return dom;
 }
 
-const render = (vnode, container)=>{
-    return container.appendChild(_render(vnode));
+const render = (vnode, container, dom)=>{
+    // return container.appendChild(_render(vnode));
+    return diff(dom, vnode, container);
 }
 
 export {
-    render,
-    _render
+    render
+    // _render
 };
