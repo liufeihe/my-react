@@ -1,34 +1,21 @@
-const setAttribute = (dom, name, value)=>{
-    if (name === 'className') {
-        name = 'class';
-    }
-    if (/on\w+/.test(name)) {
-        name = name.toLowerCase();
-        dom[name] = value || '';
-    } else if (name === 'style') {
-        if (!value || typeof value === 'string') {
-            dom.style.cssText = value || ''
-        } else if (value && typeof value === 'object') {
-            for (let name in value) {
-                dom.style[name] = typeof value[name]==='number'? value[name]+'px' : value[name];
-            }
-        }
-    } else {
-        if (name in dom) {
-            dom[name] = value || ''
-        }
-        if (value) {
-            dom.setAttribute(name, value);
-        } else {
-            dom.removeAttribute(name);
-        }
-    }
-}
+import {setAttribute} from './dom.js';
+import {createComponent, setComponentProps} from './diff.js';
 
-const _render = (vnode, container)=> {
+const _render = (vnode)=> {
+    if (vnode===undefined || vnode===null || typeof vnode==='boolean'){
+        vnode = '';
+    }
+    if (typeof vnode === 'number'){
+        vnode=String(vnode)
+    }
     if (typeof vnode === 'string') {
-        const textNode = document.createTextNode(vnode);
-        return container.appendChild(textNode);
+        return document.createTextNode(vnode);
+    }
+
+    if (typeof vnode.tag === 'function') {
+        const component = createComponent(vnode.tag, vnode.attrs);
+        setComponentProps(component, vnode.attrs);
+        return component.base;
     }
 
     const dom = document.createElement(vnode.tag);
@@ -40,15 +27,17 @@ const _render = (vnode, container)=> {
     }
 
     vnode.children.forEach(child=>{
-        _render(child, dom);
+        render(child, dom);
     })
 
-    return container.appendChild(dom);
+    return dom;
 }
 
 const render = (vnode, container)=>{
-    container.innerHTML = '';
-    return _render(vnode, container);
+    return container.appendChild(_render(vnode));
 }
 
-export default render;
+export {
+    render,
+    _render
+};
