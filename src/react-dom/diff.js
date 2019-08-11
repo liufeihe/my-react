@@ -204,7 +204,7 @@ const renderComponent = (component)=>{
     component.componentWillUpdate();
   }
   // base = _render(renderer);
-  base = diff(component.base, renderer)
+  base = diffNode(component.base, renderer)
   if (component.base) {
     if (component.componentDidUpdate) {
       component.componentDidUpdate();
